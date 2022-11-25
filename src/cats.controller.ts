@@ -1,4 +1,4 @@
-import { Controller,HttpCode, Get,Req ,Res,Post, Header, Redirect, Query} from '@nestjs/common';
+import { Controller,HttpCode, Get,Req ,Res,Post, Header, Redirect, Query, Param} from '@nestjs/common';
 // import { Request } from '@nestjs/common/decorators/http/route-params.decorator';
 import {Request, Response} from "express"
 
@@ -6,15 +6,7 @@ import {Request, Response} from "express"
 
 @Controller("cats")
 export class CatsController{
-  @Get("docs")
-  @Redirect('https://nestjs.com',302)
-  getDocs(@Query('version') version){
-    if(version && version==='5'){
-        return {
-            url:"https://docs.nestjs.com/v5/"
-        }
-    }
-  }
+  
   @Get()
   findAll(@Req() request:Request,@Res() response:Response):string{
     response.status(200).json({
@@ -26,6 +18,21 @@ export class CatsController{
     })
     return;
 }
+@Get("docs")
+  @Redirect()
+  getDocs(@Query('version') version){
+    if(version && version==='5'){
+        return { url: 'https://nestjs.com' };;
+        
+    }
+    else return "Error"
+  }
+  // @Get("/:id")
+  // findOne(@Param() params):string {
+  //   console.log(params.id);
+  //   return  `This is params id : ${params.id}`
+
+  // }
 @Post()
 @HttpCode(202)
 // @Header('Cache-Control','none')
